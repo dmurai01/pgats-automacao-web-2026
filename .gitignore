@@ -1,0 +1,23 @@
+# Dependências do Node
+node_modules/
+
+# Relatórios e capturas de tela do Cypress
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
+
+# Relatórios de testes gerados por bibliotecas externas (como Mochawesome)
+cypress/reports/
+mochawesome-report/
+.nyc_output/
+
+# Arquivos de ambiente e credenciais (Segurança)
+.env
+.env.*
+cypress.env.json
+
+# Arquivos de sistema e IDEs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
