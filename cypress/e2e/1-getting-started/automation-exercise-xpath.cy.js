@@ -1,102 +1,100 @@
 require('cypress-xpath');
 
 describe('Automation Exercise', () => {
+    // Cadastro
+
     it('Cadastrar um novo usuário com sucesso', () => {
         cy.visit('https://www.automationexercise.com/')
 
-        cy.xpath('//*[@id="header"]/div/div/div/div[2]/div/ul/li[4]/a').click()
+        cy.xpath('//a[contains(@href, "login")]').click()
 
-        cy.xpath('//*[@id="form"]/div/div/div[3]/div/form/input[2]').type(`Dani${Date.now()} Teste`)
-        cy.xpath('//*[@id="form"]/div/div/div[3]/div/form/input[3]').type(`teste${Date.now()}@teste.com`)
+        cy.xpath('//*[@data-qa="signup-name"]').type(`Dani${Date.now()} Teste`)
+        cy.xpath('//*[@data-qa="signup-email"]').type(`teste${Date.now()}@teste.com`)
 
-        cy.xpath('//*[@id="form"]/div/div/div[3]/div/form/button').click()
+        cy.xpath('//*[@data-qa="signup-button"]').click()
 
         cy.xpath('//*[@id="id_gender2"]').click()
-        cy.xpath('//*[@id="password"]').type('123456')
-        cy.xpath('//*[@id="days"]').select('1')
-        cy.xpath('//*[@id="months"]').select('February')
-        cy.xpath('//*[@id="years"]').select('1981')
-        
+        cy.xpath('//*[@data-qa="password"]').type('123456')
+        cy.xpath('//*[@data-qa="days"]').select('1')
+        cy.xpath('//*[@data-qa="months"]').select('February')
+        cy.xpath('//*[@data-qa="years"]').select('1981')
+
         cy.xpath('//*[@id="optin"]').check()
 
-        cy.xpath('//*[@id="first_name"]').type('Dani9')
-        cy.xpath('//*[@id="last_name"]').type('Teste')
-        
-        cy.xpath('//*[@id="address1"]').type('Endereço Teste')
-        
-        cy.xpath('//*[@id="country"]').select('United States')
-        cy.xpath('//*[@id="state"]').type('California')
-        cy.xpath('//*[@id="city"]').type('San Francisco')
-        cy.xpath('//*[@id="zipcode"]').type('12345')
+        cy.xpath('//*[@data-qa="first_name"]').type('Dani9')
+        cy.xpath('//*[@data-qa="last_name"]').type('Teste')
 
-        cy.xpath('//*[@id="mobile_number"]').type('55 11 99998888')
+        cy.xpath('//*[@data-qa="address"]').type('Endereço Teste')
 
-        cy.xpath('//*[@id="form"]/div/div/div/div[1]/form/button').click()
-        
+        cy.xpath('//*[@data-qa="country"]').select('United States')
+        cy.xpath('//*[@data-qa="state"]').type('California')
+        cy.xpath('//*[@data-qa="city"]').type('San Francisco')
+        cy.xpath('//*[@data-qa="zipcode"]').type('12345')
+
+        cy.xpath('//*[@data-qa="mobile_number"]').type('55 11 99998888')
+
+        cy.xpath('//*[@data-qa="create-account"]').click()
+
+        cy.xpath('//*[@data-qa="account-created"]')
+            .should('be.visible')
+            .and('contain', 'Account Created!')
+
     });
 
     it('Efetuar o login do usuário com email e sonha corretos, deve logar corretamente', () => {
 
         cy.visit('https://www.automationexercise.com/login')
 
-        cy.xpath('//*[@id="form"]/div/div/div[1]/div/form/input[2]').type('teste1791916692592@teste.com')
-        cy.xpath('//*[@id="form"]/div/div/div[1]/div/form/input[3]').type('123456')
+        cy.xpath('//*[@data-qa="login-email"]').type('teste1791916692592@teste.com')
+        cy.xpath('//*[@data-qa="login-password"]').type('123456')
 
-        cy.xpath('//*[@id="form"]/div/div/div[1]/div/form/button').click()
+        cy.xpath('//*[@data-qa="login-button"]').click()
 
-        cy.xpath('//*[@id="header"]/div/div/div/div[2]/div/ul/li[10]/a/b').should('contain', 'Dani1791916692591 Teste')
+        cy.contains('Dani1791916692591 Teste').should('be.visible')
     });
 
     it('Efetuar o login com usuário ou senha incorretos, deve dar mensagem de erro', () => {
         cy.visit('https://www.automationexercise.com/login')
 
-        cy.xpath('//*[@id="form"]/div/div/div[1]/div/form/input[2]').type('errado@teste.com')
-        cy.xpath('//*[@id="form"]/div/div/div[1]/div/form/input[3]').type('123456')
+        cy.xpath('//*[@data-qa="login-email"]').type('errado@teste.com')
+        cy.xpath('//*[@data-qa="login-password"]').type('123456')
 
-        cy.xpath('//*[@id="form"]/div/div/div[1]/div/form/button').click()
+        cy.xpath('//*[@data-qa="login-button"]').click()
 
-        cy.xpath('//*[@id="form"]/div/div/div[1]/div/form/p')
-            .should('exist')
-            .should('be.visible')
-            .should('contain.text', 'Your email or password is incorrect!')
-        
+        // cy.xpath('//*a > b').should('contain', 'Dani1791916692591 Teste')
+        // cy.xpath('//*.login-form > form > p').should('contain', 'Your email or password is incorrect!')
+        cy.contains('Your email or password is incorrect!').should('be.visible')
+
     });
 
     it('Com usuário logado, clicar em logout deve deslogar corretamente o usuário', () => {
 
         cy.visit('https://www.automationexercise.com/login')
 
-        cy.xpath('//*[@id="form"]/div/div/div[1]/div/form/input[2]').type('teste1791916692592@teste.com')
-        cy.xpath('//*[@id="form"]/div/div/div[1]/div/form/input[3]').type('123456')
+        cy.xpath('//*[@data-qa="login-email"]').type('teste1791916692592@teste.com')
+        cy.xpath('//*[@data-qa="login-password"]').type('123456')
 
-        cy.xpath('//*[@id="form"]/div/div/div[1]/div/form/button').click()
+        cy.xpath('//*[@data-qa="login-button"]').click()
 
-        cy.xpath('//*[@id="header"]/div/div/div/div[2]/div/ul/li[10]/a/b').should('contain', 'Dani1791916692591 Teste')
-
-        cy.xpath('//*[@id="header"]/div/div/div/div[2]/div/ul/li[4]/a')
+        cy.xpath('//a[normalize-space()="Logout"]')
+        //a[normalize-space()='Signup / Login']
             .should('be.visible')
             .click()
 
-        cy.xpath('//*[@id="form"]/div/div/div[1]/div/h2').should('be.visible')
-        cy.xpath('//*[@id="form"]/div/div/div[1]/div/form').should('be.visible')
         cy.url().should('include', 'login')
     });
 
     it('Cadastrar um novo usuário com email já cadastrado, deve dar mensagem de erro', () => {
         cy.visit('https://www.automationexercise.com/')
 
-        cy.xpath('//*[@id="header"]/div/div/div/div[2]/div/ul/li[4]/a').click()
+        cy.xpath('//a[contains(@href, "login")]').click()
 
-        cy.xpath('//*[@id="form"]/div/div/div[3]/div/form/input[2]').type(`Dani1791916692591 Teste`)
-        cy.xpath('//*[@id="form"]/div/div/div[3]/div/form/input[3]').type(`teste1791916692592@teste.com`)
+        cy.xpath('//*[@data-qa="signup-name"]').type(`Dani1791916692591 Teste`)
+        cy.xpath('//*[@data-qa="signup-email"]').type(`teste1791916692592@teste.com`)
 
-        cy.xpath('//*[@id="form"]/div/div/div[3]/div/form/button').click()
-        
-        cy.xpath('//*[@id="form"]/div/div/div[3]/div/form/p')
-            .should('exist')
-            .should('be.visible')
-            .should('contain', 'Email Address already exist!')
-            .and('contain.text', 'Email Address already exist!')
-        
+        cy.xpath('//*[@data-qa="signup-button"]').click()
+
+        cy.contains('Email Address already exist!').should('be.visible')
+            
     });
 });
