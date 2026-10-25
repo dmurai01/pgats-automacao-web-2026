@@ -80,9 +80,10 @@ executa esse spec:
   `trabalho-de-conclusao-modulo`.
 
 O job roda em `ubuntu-latest`, configura o Node.js 20, instala as dependências com
-`npm ci` e executa apenas o spec deste documento. O relatório é gerado durante a
-execução no runner, mas o workflow atual não o publica como artefato; ao fim do
-job, ele não fica disponível para download. O status da execução e a saída do
-comando podem ser consultados nos logs do job na aba **Actions**.
+`npm ci` e executa apenas o spec deste documento. Ao final, o workflow publica a
+pasta `cypress/reports/html/` como o artefato `mochawesome-report`, mesmo quando
+os testes falham (desde que o relatório tenha sido gerado). Para baixá-lo, abra a
+execução na aba **Actions**, localize a seção **Artifacts** e selecione
+`mochawesome-report`. Extraia o arquivo baixado e abra `index.html` no navegador.
 
 Esse workflow automatiza integração contínua (CI) dos testes.
